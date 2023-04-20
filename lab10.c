@@ -16,12 +16,12 @@ void deallocateNode(struct Trie * pTrie);
 
 void printWord(struct Trie * pTrie, char * word) {
     if(word == NULL || pTrie == NULL) {return;}
-    printf("start printWord()\n");
+    //printf("start printWord()\n");
     struct Trie * temp = pTrie;
     int k;
     for(int i = 0; i < strlen(word); i++) {
         k = word[i] - 'a';
-        printf("%d:%d ", k, temp);
+        printf("%d ", k);
         temp = temp->next[k];
     }
     printf("\n");
@@ -35,7 +35,7 @@ void insert(struct Trie *pTrie, char *word) {
     for(int i = 0; i < strlen(word); i++) {
         k = word[i] - 'a';
         printf("k = %d\n", k);
-        if(temp->next[k] == NULL) { // segmentation fault here
+        if(temp->next[k] == NULL) { 
             temp->next[k] = init();
         }
         temp = temp->next[k];
@@ -47,19 +47,19 @@ void insert(struct Trie *pTrie, char *word) {
 
 int numberOfOccurances(struct Trie *pTrie, char *word) {
     if(word == NULL) {return 0;}
-    printf("begin count for %s\n", word);
+    //printf("begin count for %s\n", word);
     struct Trie * temp = pTrie;
     int l = strlen(word);
     int k;
     for(int i = 0; i < l; i++) {
         k = word[i] - 'a';
-        printf("k = %d\n", k);
-        if(temp->next[k] == NULL) { // segmentation fault here too
+        //printf("k = %d\n", k);
+        if(temp->next[k] == NULL) { 
             return 0;
         }
         temp = temp->next[k];
     }
-    printf("count is %d\n", temp->count);
+    //printf("count is %d\n", temp->count);
     return temp->count;
 }
 
@@ -93,11 +93,11 @@ struct Trie * init(void) {
         pTrie->next[i] = NULL;
     }
     pTrie->count = 0;
-    if(pTrie) {
-        printf("init(%d)\n", pTrie);
-        printf("%d->count = %d\n", pTrie, pTrie->count);
-        printf("%d->next[0] = %d\n", pTrie, pTrie->next[0]);
-    }
+   // if(pTrie) {
+   //     printf("init(%d)\n", pTrie);
+   //     printf("%d->count = %d\n", pTrie, pTrie->count);
+   //     printf("%d->next[0] = %d\n", pTrie, pTrie->next[0]);
+   // }
     return pTrie;
 }
 
