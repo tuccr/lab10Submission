@@ -8,27 +8,41 @@ struct Trie {
 };
 
 
-void insert(struct Trie **ppTrie, char *word);
+void insert(struct Trie *pTrie, char *word);
 int numberOfOccurances(struct Trie *pTrie, char *word);
 struct Trie *deallocateTrie(struct Trie *pTrie);
-void init(struct Trie * pTrie);
+struct Trie * init(void);
 void deallocateNode(struct Trie * pTrie);
 
-void insert(struct Trie **ppTrie, char *word) {
+void printWord(struct Trie * pTrie, char * word) {
+    if(word == NULL || pTrie == NULL) {return;}
+    printf("start printWord()\n");
+    struct Trie * temp = pTrie;
+    int k;
+    for(int i = 0; i < strlen(word); i++) {
+        k = word[i] - 'a';
+        printf("%d:%d ", k, temp);
+        temp = temp->next[k];
+    }
+    printf("\n");
+}
+
+void insert(struct Trie *pTrie, char *word) {
+    if(word == NULL || pTrie == NULL) {return;}
     printf("begin insert for %s\n", word);
-    if(word == NULL || ppTrie == NULL) {return;}
-    struct Trie * temp = *ppTrie;
+    struct Trie * temp = pTrie;
     int k;
     for(int i = 0; i < strlen(word); i++) {
         k = word[i] - 'a';
         printf("k = %d\n", k);
-        if(temp->next[k] == NULL) {
-            init(temp->next[k]);
+        if(temp->next[k] == NULL) { // segmentation fault here
+            temp->next[k] = init();
         }
         temp = temp->next[k];
     }
     temp->count = temp->count + 1;
     printf("insert complete\n");
+    printWord(pTrie, word);
 }
 
 int numberOfOccurances(struct Trie *pTrie, char *word) {
@@ -40,7 +54,7 @@ int numberOfOccurances(struct Trie *pTrie, char *word) {
     for(int i = 0; i < l; i++) {
         k = word[i] - 'a';
         printf("k = %d\n", k);
-        if(temp->next[k] == NULL) {
+        if(temp->next[k] == NULL) { // segmentation fault here too
             return 0;
         }
         temp = temp->next[k];
@@ -70,15 +84,21 @@ struct Trie * deallocateTrie(struct Trie *pTrie) {
     return pTrie;
 }
 
-void init(struct Trie * pTrie) {
+struct Trie * init(void) {
+
+    struct Trie * pTrie = NULL;
+
     pTrie = (struct Trie *)malloc(sizeof(struct Trie));
     for(int i = 0; i < 26; i++) {
         pTrie->next[i] = NULL;
     }
     pTrie->count = 0;
-    printf("init(%d)\n", pTrie);
-    printf("%d->count = %d\n", pTrie, pTrie->count);
-    printf("%d->next[0] = %d\n", pTrie, pTrie->next[0]);
+    if(pTrie) {
+        printf("init(%d)\n", pTrie);
+        printf("%d->count = %d\n", pTrie, pTrie->count);
+        printf("%d->next[0] = %d\n", pTrie, pTrie->next[0]);
+    }
+    return pTrie;
 }
 
 
@@ -86,11 +106,10 @@ int main(void)
 {
     // read the number of the words in the dictionary
     // parse line  by line, and insert each word to the trie data structure
-    struct Trie * trie;
+    struct Trie * trie = init();
     char *pWords[] = {"notaword", "ucf", "no", "note", "corg"};
-    init(trie); // this is going to initialize and create NULL children
     for(int j = 0; j < 5; j++) {
-        insert(&trie, pWords[j]);
+        insert(trie, pWords[j]);
     }
     for (int i=0;i<5;i++)
     {
