@@ -16,7 +16,7 @@ void deallocateNode(struct Trie * pTrie);
 
 void printWord(struct Trie * pTrie, char * word) {
     if(word == NULL || pTrie == NULL) {return;}
-    //printf("start printWord()\n");
+    printf("printing %s\n", word);
     struct Trie * temp = pTrie;
     int k;
     for(int i = 0; i < strlen(word); i++) {
@@ -29,19 +29,16 @@ void printWord(struct Trie * pTrie, char * word) {
 
 void insert(struct Trie *pTrie, char *word) {
     if(word == NULL || pTrie == NULL) {return;}
-    printf("begin insert for %s\n", word);
     struct Trie * temp = pTrie;
     int k;
     for(int i = 0; i < strlen(word); i++) {
         k = word[i] - 'a';
-        printf("k = %d\n", k);
         if(temp->next[k] == NULL) { 
             temp->next[k] = init();
         }
         temp = temp->next[k];
     }
     temp->count = temp->count + 1;
-    printf("insert complete\n");
     printWord(pTrie, word);
 }
 
