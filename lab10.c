@@ -76,7 +76,9 @@ void init(struct Trie * pTrie) {
         pTrie->next[i] = NULL;
     }
     pTrie->count = 0;
-    printf("init()\n");
+    printf("init(%d)\n", pTrie);
+    printf("%d->count = %d\n", pTrie, pTrie->count);
+    printf("%d->next[0] = %d\n", pTrie, pTrie->next[0]);
 }
 
 
