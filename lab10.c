@@ -38,25 +38,22 @@ void insert(struct Trie *pTrie, char *word) {
         }
         temp = temp->next[k];
     }
-    temp->count = temp->count + 1;
+    temp->count++;
     printWord(pTrie, word);
 }
 
 int numberOfOccurances(struct Trie *pTrie, char *word) {
-    if(word == NULL) {return 0;}
-    //printf("begin count for %s\n", word);
+    if(word == NULL || pTrie == NULL) {return 0;}
     struct Trie * temp = pTrie;
     int l = strlen(word);
     int k;
     for(int i = 0; i < l; i++) {
         k = word[i] - 'a';
-        //printf("k = %d\n", k);
         if(temp->next[k] == NULL) { 
             return 0;
         }
         temp = temp->next[k];
     }
-    //printf("count is %d\n", temp->count);
     return temp->count;
 }
 
@@ -90,19 +87,12 @@ struct Trie * init(void) {
         pTrie->next[i] = NULL;
     }
     pTrie->count = 0;
-   // if(pTrie) {
-   //     printf("init(%d)\n", pTrie);
-   //     printf("%d->count = %d\n", pTrie, pTrie->count);
-   //     printf("%d->next[0] = %d\n", pTrie, pTrie->next[0]);
-   // }
     return pTrie;
 }
 
 
 int main(void)
 {
-    // read the number of the words in the dictionary
-    // parse line  by line, and insert each word to the trie data structure
     struct Trie * trie = init();
     char *pWords[] = {"notaword", "ucf", "no", "note", "corg"};
     for(int j = 0; j < 5; j++) {
