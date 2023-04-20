@@ -13,19 +13,21 @@ int numberOfOccurances(struct Trie *pTrie, char *word);
 struct Trie *deallocateTrie(struct Trie *pTrie);
 struct Trie * init(void);
 void deallocateNode(struct Trie * pTrie);
-
-void printWord(struct Trie * pTrie, char * word) {
-    if(word == NULL || pTrie == NULL) {return;}
-    printf("printing %s\n", word);
-    struct Trie * temp = pTrie;
-    int k;
-    for(int i = 0; i < strlen(word); i++) {
-        k = word[i] - 'a';
-        printf("%d ", k);
-        temp = temp->next[k];
-    }
-    printf("\n");
-}
+// void printWord(struct Trie * pTrie, char * word);
+// 
+// void printWord(struct Trie * pTrie, char * word) {
+//     if(word == NULL || pTrie == NULL) {return;}
+//     printf("printing %s\n", word);
+//     struct Trie * temp = pTrie;
+//     int k;
+//     for(int i = 0; i < strlen(word); i++) {
+//         k = word[i] - 'a';
+//         printf("%d ", k);
+//         temp = temp->next[k];
+//     }
+//     printf("\n");
+// }
+// 
 
 void insert(struct Trie *pTrie, char *word) {
     if(word == NULL || pTrie == NULL) {return;}
@@ -39,7 +41,7 @@ void insert(struct Trie *pTrie, char *word) {
         temp = temp->next[k];
     }
     temp->count++;
-    printWord(pTrie, word);
+    // printWord(pTrie, word);
 }
 
 int numberOfOccurances(struct Trie *pTrie, char *word) {
@@ -79,9 +81,7 @@ struct Trie * deallocateTrie(struct Trie *pTrie) {
 }
 
 struct Trie * init(void) {
-
     struct Trie * pTrie = NULL;
-
     pTrie = (struct Trie *)malloc(sizeof(struct Trie));
     for(int i = 0; i < 26; i++) {
         pTrie->next[i] = NULL;
