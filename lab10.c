@@ -20,15 +20,10 @@ void insert(struct Trie **ppTrie, char *word) {
     struct Trie * temp = *ppTrie;
     int k;
     for(int i = 0; i < strlen(word); i++) {
-        printf("i = %d\n", i);
         k = word[i] - 'a';
         printf("k = %d\n", k);
-        if(temp == NULL) {
-            temp = (struct Trie *)malloc(sizeof(struct Trie));
-            temp->count = 0;
-            for(int j = 0; j < 26; j++) {
-                temp->next[j] = NULL;
-            }
+        if(temp->next[k] == NULL) {
+            init(temp->next[k]);
         }
         temp = temp->next[k];
     }
@@ -77,7 +72,6 @@ struct Trie * deallocateTrie(struct Trie *pTrie) {
 
 void init(struct Trie * pTrie) {
     pTrie = (struct Trie *)malloc(sizeof(struct Trie));
-    int length = 5;
     for(int i = 0; i < 26; i++) {
         pTrie->next[i] = NULL;
     }
@@ -92,7 +86,7 @@ int main(void)
     // parse line  by line, and insert each word to the trie data structure
     struct Trie * trie;
     char *pWords[] = {"notaword", "ucf", "no", "note", "corg"};
-    init(trie); // this is going to initialize and fill
+    init(trie); // this is going to initialize and create NULL children
     for(int j = 0; j < 5; j++) {
         insert(&trie, pWords[j]);
     }
